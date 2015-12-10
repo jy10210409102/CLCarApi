@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>CarApi</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+	</welcome-file-list>
+	
+	<!-- session配置  -->
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	
+	<context-param>
+		<description>Location to store uploaded file</description> 
+		<param-name>file-upload</param-name>
+		<param-value>
+			E:\Web\upload
+		</param-value>
+	</context-param>
+	<filter>
+		<filter-name>HelloFilter</filter-name>
+		<filter-class>com.nong.servlet.filter.HelloFilter</filter-class>
+		<init-param>
+			<param-name>test-param</param-name>
+			<param-value>Initialization Paramter</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>HelloFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>api</servlet-name>
+		<servlet-class>com.nong.servlet.API</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>api</servlet-name>
+		<url-pattern>/API</url-pattern>
+	</servlet-mapping>
+
+	<!-- 表单测试 -->
+	<servlet>
+		<servlet-name>HelloForm</servlet-name>
+		<servlet-class>com.nong.servlet.HelloForm</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HelloForm</servlet-name>
+		<url-pattern>/HelloForm</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 上传测试 -->
+	<servlet>
+		<servlet-name>Upload</servlet-name>
+		<servlet-class>com.nong.servlet.UploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Upload</servlet-name>
+		<url-pattern>/Upload</url-pattern>
+	</servlet-mapping>
+</web-app>
