@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>CarApi</display-name>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 	</welcome-file-list>
 	
@@ -61,5 +61,22 @@
 	<servlet-mapping>
 		<servlet-name>Upload</servlet-name>
 		<url-pattern>/Upload</url-pattern>
+	</servlet-mapping>
+	
+	<!-- spring mvc 配置 -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 配置文件路径，默认阿紫webinfo下面 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+    		<param-value>classpath*:config/spring-servlet.xml</param-value>
+
+		</init-param>
+		<load-on-startup>1</load-on-startup> <!-- 表示什么时候初始化， 1表示tomcat启动即初始化spring -->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
