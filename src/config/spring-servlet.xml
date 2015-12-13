@@ -15,25 +15,33 @@
             http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
             http://www.springframework.org/schema/context 
             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-	<!-- 使Spring支持自动检测组件，如注解的Controller -->
-	<context:component-scan base-package="com.minx.crm.web.controller" />
-	<!-- 视图解析器，设置前缀和后缀 -->
+
+	<!-- 注解扫描包 ，把标记了@Controller注解的类转换为bean -->
+	<context:component-scan base-package="com.zhcl.web.controller" />
+	<!-- 开启注解 完成请求和注解POJO的映射 旧的使用 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" 
+		/> <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" 
+		/> -->
+	<!-- mvc注解驱动 省掉上面两句 -->
+	<mvc:annotation-driven />
+
+	<!-- 视图解析器，设置前缀和后缀（ 基础配置） -->
 	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
-	
-	<!-- 单请求 -->
-	<bean name = "/spring/hello" class = "com.zhcl.web.controller.HelloWorldController"></bean>
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	<!-- 多请求处理控制器 （基础配置） -->
+	<bean id="paramMethodResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="action" />    <!-- 携带参数名对应函数名 -->
+	</bean>
 
-	<!-- 多请求 -->
-	<!-- 多请求处理控制器 -->   
-   <bean id="paraMethodResolver"     
-       class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">     
-       <property name="paramName">   
-        <value>method</value>   
-       </property>     
-   </bean>     
-
+	<!-- 静态资源访问不受限 （img目录不受限制） (基础配置) -->
+	<mvc:resources location="/img/" mapping="/img/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/assets/" mapping="/assets/**" />
 </beans>
 
 

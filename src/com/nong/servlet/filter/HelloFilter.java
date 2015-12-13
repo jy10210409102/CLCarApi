@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.zhcl.log.L;
+import com.zhcl.utils.log.L;
 
 /**
  * 过滤测试
@@ -36,6 +36,9 @@ public class HelloFilter implements Filter {
 		String testParam = config.getInitParameter("test-param");
 		// 输出初始化参数
 		System.out.println("Test Param: " + testParam);
+		
+		String dirPath =  config.getServletContext().getInitParameter("file-upload"); 
+		L.i(tag, "文件保存路径：" + dirPath);
 	}
 
 	/**
@@ -48,7 +51,7 @@ public class HelloFilter implements Filter {
 		// 获取客户机的 IP 地址
 		String ipAddress = request.getRemoteAddr();
 		// 记录 IP 地址和当前时间戳
-		L.i(tag, "IP " + ipAddress + ", Time " + new Date().toString());
+//		L.i(tag, "IP " + ipAddress + ", Time " + new Date().toString());
 		// 把请求传回过滤链
 		response.setContentType("text/html;charset=UTF-8");
 		filterChain.doFilter(request, response);
