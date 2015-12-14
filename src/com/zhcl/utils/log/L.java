@@ -13,7 +13,7 @@ public class L {
 	static boolean e = true;
 	static boolean i = true;
 	static boolean w = true;
-	private static final int SIZE = 20;
+	private static final int SIZE = 30;
 	
 	private static String getSizeStr(String tag){
 		int emptyCount = 0;
@@ -21,6 +21,9 @@ public class L {
 			emptyCount = SIZE;
 		}else{
 			emptyCount = SIZE - tag.length();
+			if(emptyCount < 0){
+				return tag.substring(0, SIZE);
+			}
 		}
 		return String.format("%s%" + (emptyCount + 1) + "s", tag, "");
 	}

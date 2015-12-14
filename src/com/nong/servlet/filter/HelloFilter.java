@@ -49,7 +49,7 @@ public class HelloFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		L.i(tag, "doFilter");
+//		L.i(tag, "doFilter");
 		// 获取客户机的 IP 地址
 		String ipAddress = request.getRemoteAddr();
 		// 记录 IP 地址和当前时间戳

@@ -3,8 +3,6 @@
  */
 package com.zhcl.web.controller;
 
-import java.util.HashMap;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zhcl.utils.EMail;
-import com.zhcl.utils.EMailBuilder;
 import com.zhcl.utils.MailUtils;
 import com.zhcl.utils.PageUtils;
 import com.zhcl.utils.log.L;

@@ -18,6 +18,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -40,18 +41,23 @@ public class MobileTest {
 	public static void main(String[] args) throws IOException {
 		L.i(tag, "main");
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("test", "test");
-		for(int i = 0; i < 10; i++){
-			L.i(tag, requestByPostMethod("http://www.wearefamily.link/carapi/api-json/requesttime", map));
+		map.put("key", "4028a08151a118420151a11899e90000");
+		final String KEY = "4028a08151a118420151a11899e90000";
+		for(int i = 0; i < 20; i++){
+			long currentTime = System.currentTimeMillis();
+			//http://www.wearefamily.link/carapi/api-json/requesttime
+			//当前架构请求，get方式比 post方式稍耗时一点。
+			L.i(tag, requestByPostMethod("http://localhost:8080/carapi/api-json/requesttime", KEY, map));
+			L.i(tag, "请求一次消耗时间：" + (System.currentTimeMillis() - currentTime));
 		}
-		
 	}
 
 	/**
 	 * 通过GET方式发起http请求
 	 */
-	public static void requestByGetMethod(String url) {
+	public static String requestByGetMethod(String url) {
 		// 创建默认的httpClient实例
+		String result = null;
 		CloseableHttpClient httpClient = getHttpClient();
 		try {
 			// 用get方法发送http请求
@@ -62,13 +68,19 @@ public class MobileTest {
 			httpResponse = httpClient.execute(get);
 			try {
 				// response实体
-				HttpEntity entity = httpResponse.getEntity();
-				if (null != entity) {
-					L.i(tag, "响应状态码:" + httpResponse.getStatusLine());
-					L.i(tag, "-------------------------------------------------");
-					L.i(tag, "响应内容:" + EntityUtils.toString(entity));
-					L.i(tag, "-------------------------------------------------");
-				}
+//				HttpEntity entity = httpResponse.getEntity();
+//				if (null != entity) {
+//					L.i(tag, "响应状态码:" + httpResponse.getStatusLine());
+//					L.i(tag, "-------------------------------------------------");
+//					L.i(tag, "响应内容:" + EntityUtils.toString(entity));
+//					L.i(tag, "-------------------------------------------------");
+//				}
+				if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {  
+					L.e(tag, "成功！！");
+	                // 2、获取response的entity。  
+	                HttpEntity entity = httpResponse.getEntity();  
+	                result = EntityUtils.toString(entity, "UTF-8");
+		        }  
 			} finally {
 				httpResponse.close();
 			}
@@ -81,40 +93,41 @@ public class MobileTest {
 				e.printStackTrace();
 			}
 		}
-
+		return result;
 	}
 
 	/**
 	 * POST方式发起http请求
+	 * httpClient 不新建则可以保存session
 	 */
-	public static String requestByPostMethod(String url, HashMap<String, String> params) {
+	public static String requestByPostMethod(String url, String keyCode, HashMap<String, String> params) {
 		String result = null;
 		CloseableHttpClient httpClient = getHttpClient();
 		try {
 			HttpPost post = new HttpPost(url); // 这里用上本机的某个工程做测试
-			// 创建参数列表
-			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-			Set<String> keySet = params.keySet();
-			for (String key : keySet) {
-				nvps.add(new BasicNameValuePair(key, params.get(key)));
+			post.addHeader("key", keyCode);
+			if(params != null){
+				// 创建参数列表
+				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+				Set<String> keySet = params.keySet();
+				for (String key : keySet) {
+					nvps.add(new BasicNameValuePair(key, params.get(key)));
+				}
+				// url格式编码
+				UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(nvps, "UTF-8");
+				post.setEntity(uefEntity);
 			}
-
-			// url格式编码
-			UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(nvps, "UTF-8");
-			post.setEntity(uefEntity);
 			L.i(tag, "POST 请求...." + post.getURI());
+			
+			
+
 			// 执行请求
 			CloseableHttpResponse httpResponse = httpClient.execute(post);
-			
-		    InputStream is = null;  
-	        Scanner sc = null;  
-	        Writer os = null;  
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {  
 				L.e(tag, "成功！！");
-	                // 2、获取response的entity。  
-	                HttpEntity entity = httpResponse.getEntity();  
-	  
-	                result = EntityUtils.toString(entity, "UTF-8");
+                // 2、获取response的entity。  
+                HttpEntity entity = httpResponse.getEntity();  
+                result = EntityUtils.toString(entity, "UTF-8");
 	        }  
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -141,11 +154,11 @@ public class MobileTest {
 	}
 	
 	  
-    public static void downloadPagebyGetMethod() throws IOException {  
+    public static void downloadPagebyGetMethod(String url) throws IOException {  
   
         // 1、通过HttpGet获取到response对象  
         CloseableHttpClient httpClient = HttpClients.createDefault();  
-        HttpGet httpGet = new HttpGet("http://www.baidu.com/");  
+        HttpGet httpGet = new HttpGet(url);  
         CloseableHttpResponse response = httpClient.execute(httpGet);  
   
         InputStream is = null;  
