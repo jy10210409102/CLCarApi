@@ -13,4 +13,6 @@ import com.zhcl.web.controller.entity.User;
 public interface IUserDao {
 	
 	public boolean addUser(User user);
+	
+	public boolean exists(String name);
 }

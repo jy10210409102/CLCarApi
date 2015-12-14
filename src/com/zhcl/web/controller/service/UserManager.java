@@ -3,6 +3,8 @@
  */
 package com.zhcl.web.controller.service;
 
+import org.springframework.stereotype.Service;
+
 import com.zhcl.web.controller.dao.IUserDao;
 import com.zhcl.web.controller.entity.User;
 
@@ -10,8 +12,8 @@ import com.zhcl.web.controller.entity.User;
  * @author vision.chenli
  * @date 2015年12月13日 下午5:06:04
  */
-
-public class UserManager implements IUserManager {
+@Service
+public class UserManager implements IUserManager{
 	
 	private IUserDao userDao;
 
@@ -22,6 +24,11 @@ public class UserManager implements IUserManager {
 	@Override
 	public boolean addUser(User user) {
 		return userDao.addUser(user);
+	}
+
+	@Override
+	public boolean exists(String name) {
+		return userDao.exists(name);
 	}
 
 }

@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import com.zhcl.utils.log.L;
+import com.zhcl.web.controller.entity.User;
 
 /** 
  * 邮件工具类
@@ -133,6 +134,8 @@ public class MailUtils {
         	  // 设置抄送 
             message.setRecipients(RecipientType.CC, ccAddrList); 
         }
+        // 密送 (不会在邮件收件人名单中显示出来) 
+        message.setRecipient(RecipientType.BCC, new InternetAddress(this.mEMailBuilder.getUserName())); 
         // 设置发送时间 
         message.setSentDate(new Date()); 
         // 设置纯文本内容为邮件正文 
@@ -148,5 +151,24 @@ public class MailUtils {
         // 关闭连接 
         transport.close(); 
         return true;
+    }
+    
+    
+    /**
+     * 发送注册完成邮件
+     */
+    public void sendRegistEMail(User user){
+    	EMail email = new EMail();
+    	email = new EMail();
+		email.to = new HashMap<String, String>();
+		email.to.put(user.getEmail(), user.getUsername());
+		email.theme = "CarApi系统邮件";
+		email.body = "你好 " + user.getUsername() + " 欢迎使用 CarApi,请妥善保管系统分配的KEY:" + user.getId();
+		try {
+			MailUtils.getInstance().sendTextEmail(email);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

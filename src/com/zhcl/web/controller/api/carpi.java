@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.zhcl.utils.log.L;
 
 /**
+ * 提供简单功能
  * @author vision.chenli
  * @date 2015年12月12日 下午4:46:48
  */
@@ -28,7 +29,7 @@ public class carpi {
 		String result = "{\"time\":\" " + System.currentTimeMillis() + "}";
 		L.i(tag, "result = " + result);
 		PrintWriter out = null;
-		response.setContentType("application/json");
+		response.setContentType("application/json"); 
 		try{
 			out = response.getWriter();
 			out.write(result);

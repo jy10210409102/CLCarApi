@@ -27,21 +27,21 @@ public class L {
 	
 	public static void e(String tag, String str){
 		if(e){
-			System.out.println("<e:> " + getSizeStr(tag) + "\t" + str);
+			System.out.println("<e:> " + getSizeStr(tag) + "\t|" + str);
 		}
 	}
 	
 	public static void i(String tag, String str){
 		if(i){
 //			Log.i(tag, str);
-			System.out.println("<i:> " + getSizeStr(tag) + "\t" + str);
+			System.out.println("<i:> " + getSizeStr(tag) + "\t|" + str);
 		}
 	}
 	
 	public static void w(String tag, String str){
 		if(w){
 //			Log.w(tag, str);
-			System.out.println("<w:> " + getSizeStr(tag) + "\t" + str);
+			System.out.println("<w:> " + getSizeStr(tag) + "\t|" + str);
 		}
 	}
 }

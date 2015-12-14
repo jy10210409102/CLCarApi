@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.zhcl.init.InitMnager;
 import com.zhcl.utils.log.L;
 
 /**
@@ -32,6 +33,7 @@ public class HelloFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		L.i(tag, "init");
+		InitMnager.getInstance().init();
 		// 获取初始化参数
 		String testParam = config.getInitParameter("test-param");
 		// 输出初始化参数

@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="row">
                     <div class="logo span4">
-                        <h1><a href="">iApp Register <span class="red">.</span></a></h1>
+                        <h1><a href="">CarApi Register <span class="red">.</span></a></h1>
                     </div>
                     <div class="links span8">
                         <a class="home" href="" rel="tooltip" data-placement="bottom" data-original-title="Home"></a>
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-		<div align="center">Copyright &copy; 2016.CARAPI All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+		<div align="center">Copyright &copy; 2016.CARAPI All rights reserved.<a target="_blank" href="http://www.wearefamily.link/carapi">CarApi</a>
 </div>
         <!-- Javascript -->
         <script src="assets/js/jquery-1.8.2.min.js"></script>

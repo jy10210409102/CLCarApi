@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zhcl.utils.EMail;
 import com.zhcl.utils.EMailBuilder;
 import com.zhcl.utils.MailUtils;
+import com.zhcl.utils.PageUtils;
 import com.zhcl.utils.log.L;
 import com.zhcl.web.controller.entity.User;
 import com.zhcl.web.controller.service.IUserManager;
@@ -29,18 +30,11 @@ import com.zhcl.web.controller.service.IUserManager;
 @RequestMapping("/user")		//根连接，方便分类避免重复
 public class UserController {
 	private static final String tag = "UserController";
-	EMail email;
-	public UserController(){
-		MailUtils mMailUtils = MailUtils.getInstance();
-		EMailBuilder mEMailBuilder = new EMailBuilder();
-		mEMailBuilder.setUserInfo("wearefamily.link@aliyun.com", "chenli0925")
-		.setProtocol("smtp", "smtp.aliyun.com", "25")
-		.setDebug(true);
-		mMailUtils.setEMailBuilder(mEMailBuilder);
-	}
-	
 	@Resource(name="userManager")
 	private IUserManager userManager;
+	
+	EMail email;
+	public UserController(){ }
 	
 	@RequestMapping("/toAddUser") //精简后的写法,直接返回字符串
 	public String toAddUser(User user) {
@@ -49,23 +43,14 @@ public class UserController {
 	}
 	
 	@RequestMapping("/addUser") //精简后的写法,直接返回字符串
-	public String addUser(User user) {
-		L.e(tag, "addUser");  
-		L.i(tag, "name : " + user.getUsername());
-		L.i(tag, "address : " + user.getAddress()); 
-		L.i(tag, "email:" + user.getEmail());
-		userManager.addUser(user);
-		email = new EMail();
-		email.to = new HashMap<String, String>();
-		email.to.put(user.getEmail(), "chenli");
-		email.theme = "系统邮件";
-		email.body = "欢迎使用 CarApi";
-		try {
-			MailUtils.getInstance().sendTextEmail(email);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public String addUser(User user, HttpServletRequest request, HttpServletResponse response) {
+		if(userManager.exists(user.getUsername())){
+			L.e(tag, user.getUsername() + "已经存在！");
+			return PageUtils.getInstance().errorToPage(request, response, "异常：用户已被注册");
 		}
+		userManager.addUser(user);
+		MailUtils.getInstance().sendRegistEMail(user);
+		request.setAttribute("result", "已发送邮件至邮箱：" + user.getEmail());
 		return "spring";
 	}
 	

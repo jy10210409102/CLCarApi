@@ -11,4 +11,5 @@ import com.zhcl.web.controller.entity.User;
 */
 public interface IUserManager {
 	public boolean addUser(User user);
+	public boolean exists(String name);
 }
